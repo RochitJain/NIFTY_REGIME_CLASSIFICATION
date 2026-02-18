@@ -9,7 +9,7 @@ def predict_trend():
     model = joblib.load(MODEL_PATH)
     scaler = joblib.load(SCALER_PATH)
 
-    df = yf.download("^NSEI", period="3mo", interval="1d")
+    df = yf.download("^NSEI", period="6mo", interval="1d")
     df.columns = df.columns.get_level_values(0)
     df = create_feature(df)
 
@@ -19,8 +19,8 @@ def predict_trend():
         "vol_20",
         "ma20_slope",
         "volume_ratio"
-    ]].iloc[[-1]]
+    ]]
 
-    feature_scaled = scaler.transform(features)
+    feature_scaled = scaler.transform(features.iloc[[-1]])
     prediction = model.predict(feature_scaled)
     return prediction[0]
