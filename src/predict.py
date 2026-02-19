@@ -9,7 +9,7 @@ def predict_trend():
     model = joblib.load(MODEL_PATH)
     scaler = joblib.load(SCALER_PATH)
 
-    df = yf.download("^NSEI", period="6mo", interval="1d")
+    df = yf.download("^NSEI", period="6mo", interval="1d", progress=False)
     df.columns = df.columns.get_level_values(0)
     df = create_feature(df)
 

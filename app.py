@@ -1,18 +1,16 @@
 import streamlit as st 
-import sys
-import os
+import time
+from streamlit_autorefresh import st_autorefresh
 from src.predict import predict_trend
 
 st.set_page_config(page_title="Nifty Regime Detector")
 st.title("Nifty Regime Detector")
-st.write("Click below for current trend")
+placeholder = st.empty()
+st_autorefresh(interval = 6000, key= "refresh")
 
-if st.button("Check Current Regime"):
+regime = predict_trend()
 
-    regime = predict_trend()
-
-    st.subheader("Prediction Result")
-
+with placeholder.container():
     if regime == "Upward":
         st.success("Market Structure: UPWARD TREND")
 
@@ -21,3 +19,5 @@ if st.button("Check Current Regime"):
 
     else:
         st.warning("Market Structure: SIDEWAYS / CONSOLIDATION")
+
+    st.caption("Auto refresh in 15 sec")
